@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plain JS</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="root">
+    </div>
+    <script>
+        const randomNumber = Math.floor(Math.random() * 100) + 1;
+        const numberElement = document.createElement("h1");
+        numberElement.innerHTML = `Generated Number is: ${randomNumber}`;
+        const resultElement = document.createElement("h2");
+
+        if (randomNumber % 2 === 0) {
+            resultElement.innerHTML = `The number is even!`;
+        } else {
+            resultElement.innerHTML = `The number is odd!`;
+        }
+        const root = document.getElementById("root");
+        root.appendChild(numberElement)
+        root.appendChild(resultElement)
+
+    </script>
+</body>
+</html>
