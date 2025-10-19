@@ -1,0 +1,7 @@
+$font-family-sans-serif: "Nunito Sans", sans-serif;
+$bs-body-font-family: var(--bs-font-sans-serif); // Inherits from $font-family-sans-serif
+
+$primary: #ffe600;
+$secondary: #222222;
+
+@import "bootstrap/scss/bootstrap"
