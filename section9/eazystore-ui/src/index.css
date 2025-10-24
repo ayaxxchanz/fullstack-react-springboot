@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@500;600;700;800&display=swap');
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --font-primary: "Nunito Sans", sans-serif;
+    --color-primary: #222 /*#5B21B6*/;
+    --color-secondary: #ffe600 /*#5B21B6*/;
+
+    --color-light: #222222;
+    --color-dark: #f3f4f6;
+
+    --color-normalbg: #f3f4f6;
+    --color-darkbg: #1b1f23;
+
+    --color-light-2: #2b2f33;
+    --color-dark-2: #ffffff;
+    
+    --color-lighter: #F5F3FF;
+    --color-darker: #2b2f33;
+}
+@layer base {
+      html {
+        font-family: "Nunito Sans", sans-serif; /* or use @apply font-sans; if you've configured it in tailwind.config.js */
+      }
+    }
