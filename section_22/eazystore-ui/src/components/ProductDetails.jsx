@@ -1,0 +1,141 @@
+import { useLocation } from "react-router";
+import {
+  faArrowLeft,
+  faShoppingCart,
+  faShoppingBasket,
+} from "@fortawesome/free-solid-svg-icons";
+import { Link, useNavigate } from "react-router";
+import React,{ useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useRef } from "react";
+// import { useCart } from "../store/cart-context";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux"; // replace context with redux
+import { addToCart } from "../store/cart-slice"; // replace context with redux
+
+export default function ProductDetail() {
+  const location = useLocation(); // to get product object send by ProductCard
+  const product = location.state?.product;
+  const navigate = useNavigate();
+  const [quantity, setQuantity] = useState(1);
+  const zoomRef = useRef(null);
+  const [isHovering, setIsHovering] = useState(false);
+  const [backgroundPosition, setBackgroundPosition] = useState("center");
+  // const { addToCart } = useCart();
+  const dispatch = useDispatch(); // replace context with redux
+
+  const handleAddToCart = () => {
+    if (quantity < 1) return; // Prevent adding zero or negative quantity
+    dispatch(addToCart({product, quantity})); // replace context with redux
+    toast.success(`${product.name} added to cart!`, {
+        position: "bottom-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined
+    });
+  }
+
+  const handleMouseMove = (e) => {
+    const { left, top, width, height } =
+      zoomRef.current.getBoundingClientRect();
+    const x = ((e.pageX - left) / width) * 100;
+    const y = ((e.pageY - top) / height) * 100;
+    setBackgroundPosition(`${x}% ${y}%`);
+  };
+
+  const handleMouseEnter = () => setIsHovering(true);
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+    setBackgroundPosition("center");
+  };
+
+  const handleViewCart = () => navigate("/cart");
+
+  return (
+    <div className="flex items-center justify-center px-6 py-8 font-primary bg-normalbg dark:bg-darkbg">
+      <div className="max-w-5xl w-full mx-auto flex flex-col md:flex-row md:space-x-8 px-6 p-8">
+        {/* Product Image with Zoom Effect */}
+        <div
+          ref={zoomRef}
+          onMouseMove={isHovering ? handleMouseMove : null}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          className="w-full md:w-1/2 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg overflow-hidden bg-cover"
+          style={{
+            backgroundImage: `url(${product.imageUrl})`,
+            backgroundSize: isHovering ? "200%" : "cover",
+            backgroundPosition: backgroundPosition,
+          }}
+        >
+          <img
+            src={product.imageUrl}
+            alt={product.name}
+            className="w-full h-full opacity-0"
+          />
+        </div>
+
+        {/* Product Details */}
+        <div className="w-full md:w-1/2 flex flex-col space-y-6 mt-8 md:mt-0">
+          <Link
+            to="/home"
+            className="inline-flex items-center text-primary dark:text-dark hover:text-gray-600 dark:hover:text-secondary font-medium  underline underline-offset-6 decoration-3"
+          >
+            <FontAwesomeIcon icon={faArrowLeft} className="mr-2" />
+            Back To All Products
+          </Link>
+
+          <div>
+            <h1 className="text-3xl font-extrabold text-primary dark:text-lighter mb-4">
+              {product.name}
+            </h1>
+            <p className="text-lg text-light dark:text-dark mb-4">
+              {product.description}
+            </p>
+            <div className="text-2xl font-bold text-light dark:text-dark">
+              ${product.price}
+            </div>
+          </div>
+
+          <div className="flex flex-col space-y-4">
+            {/* Quantity Input */}
+            <div className="flex items-center space-x-4">
+              <label
+                htmlFor="quantity"
+                className="text-light dark:text-dark"
+              >
+                Qty:
+              </label>
+              <input
+                type="number"
+                id="quantity"
+                min="1"
+                value={quantity}
+                onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}
+                className="w-16 px-2 py-1 border rounded-md focus:ring focus:ring-light dark:focus:ring-gray-600 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+              />
+            </div>
+
+            {/* Add to Cart Button */}
+            <button onClick={handleAddToCart} className="w-full px-4 py-2 text-dark bg-light dark:bg-dark hover:bg-gray-700 dark:text-light hover:dark:bg-gray-400 rounded-md text-lg font-semibold transition">
+              Add to Cart
+              <FontAwesomeIcon icon={faShoppingCart} className="ml-2" />
+            </button>
+
+            {/* View Cart Button */}
+            <button
+              onClick={handleViewCart}
+              className="w-full px-4 py-2 text-dark bg-light dark:bg-dark hover:bg-gray-700 dark:text-light hover:dark:bg-gray-400 rounded-md text-lg font-semibold transition"
+            >
+              View Cart
+              <FontAwesomeIcon icon={faShoppingBasket} className="ml-2" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
