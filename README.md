@@ -1,5 +1,11 @@
 ![Tech Stack](https://github-readme-tech-stack.vercel.app/api/cards?title=Tech+Stack&lineCount=1&theme=github&width=900&hideBg=true&bg=%23FFFFFF&badge=%23EAEFFC&border=%23D8DEE4&titleColor=%230969DA&line1=node.js%2Cnode.js%2C3C873A%3Breact%2Creact%2C255597%3Bspring%2Cspring%2C6DB33F%3Btailwindcss%2Ctailwindcss%2C265a95%3B)
 
+# 📽️ App Demo
+[![Demo](https://img.youtube.com/vi/czRIeUDUQ6I/mqdefault.jpg)](https://youtu.be/czRIeUDUQ6I)
+
+(Right-click on image and open link in a new tab)
+
+
 # 🚀 **Important Links**
 
 ---
